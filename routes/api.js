@@ -45,7 +45,7 @@ router.post('/', function(req, res) {
             message: null,
             author: null,
             channel: null,
-            DateTime: Date.now()
+            timeStamp: Date.now()
         };
 
         if (rawbody.message != null){
@@ -57,9 +57,9 @@ router.post('/', function(req, res) {
         if (rawbody.channel != null){
         newObj.channel = rawbody.channel;
         }    
-//  THis may need to be looked at with the datetime junk        
-        if (rawbody.DateTime != Date.now()){
-            newObj.DateTime = rawbody.DateTime;
+//  THis may need to be looked at with the timeStamp junk        
+        if (rawbody.timeStamp != Date.now()){
+            newObj.timeStamp = rawbody.timeStamp;
         }
 
 
@@ -100,8 +100,8 @@ router.patch('/:id', function( req, res) {
         if (rawbody.channel != null){
         chats[id].channel = rawbody.channel;
         }    
-        if (rawbody.DateTime != Date.now()){
-            chats[id].DateTime = rawbody.DateTime;
+        if (rawbody.timeStamp != Date.now()){
+            chats[id].timeStamp = rawbody.timeStamp;
         } 
 
         
