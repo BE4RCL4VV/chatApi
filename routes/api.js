@@ -29,6 +29,38 @@ router.get('/', function(req, res) {
 
 });
 
+// get resources by channel
+router.get('/:channel', function(req, res) {
+    try{
+        var rawdata = fs.readFileSync('data.json');
+        var chats = JSON.parse(rawdata);
+
+        var filteredArr = chats.filter((val) => {
+            return val.channel == req.params.channel   // this has to be a boolean value
+        })
+        console.log(filteredArr);
+        res.status(200).json(filteredArr);
+    } catch (err){
+        res.status(500).json({message: err});
+    }
+});
+
+// get resources by author   -------------------  needs work
+// router.get('/:author', function(req, res) {
+//     try{
+//         var rawdata = fs.readFileSync('data.json');
+//         var chats = JSON.parse(rawdata);
+
+//         var filteredArr = chats.filter((val) => {
+//             return val.author == req.params.author   // this has to be a boolean value
+//         })
+//         console.log(filteredArr);
+//         res.status(200).json(filteredArr);
+//     } catch (err){
+//         res.status(500).json({message: err});
+//     }
+// });
+
 // create a new resource - create
 router.post('/', function(req, res) {
     try{
@@ -45,7 +77,7 @@ router.post('/', function(req, res) {
             message: null,
             author: null,
             channel: null,
-            timeStamp: Date.now()
+            timeStamp: new Date()
         };
 
         if (rawbody.message != null){
@@ -57,10 +89,11 @@ router.post('/', function(req, res) {
         if (rawbody.channel != null){
         newObj.channel = rawbody.channel;
         }    
-//  THis may need to be looked at with the timeStamp junk        
-        if (rawbody.timeStamp != Date.now()){
-            newObj.timeStamp = rawbody.timeStamp;
-        }
+//  THis may need to be looked at with the timeStamp junk    
+        rawbody.timeStamp = new Date();
+        // if (rawbody.timeStamp != Date.now()){
+        //     newObj.timeStamp = rawbody.timeStamp;
+        // }
 
 
         // get the actual index
@@ -100,9 +133,8 @@ router.patch('/:id', function( req, res) {
         if (rawbody.channel != null){
         chats[id].channel = rawbody.channel;
         }    
-        if (rawbody.timeStamp != Date.now()){
-            chats[id].timeStamp = rawbody.timeStamp;
-        } 
+        chats[id].timeStamp = new Date();
+         
 
         
         // save the data back to the file
